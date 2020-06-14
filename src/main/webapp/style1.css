@@ -1,0 +1,114 @@
+body{
+    font-family: Bradley Hand, cursive;
+}
+table {
+    font-size: 20px;
+    max-width: 70%;
+    width: 70%;
+    border-collapse: collapse;
+    text-align: left;
+}
+th {
+    font-weight: normal;
+    color: #FF7F50;
+    border-bottom: 2px solid #6678b1;
+    padding: 10px 8px;
+}
+td {
+    color: #6699ff;
+    padding: 9px 8px;
+    transition: .3s linear;
+}
+tr:hover td {
+    color: #4682B4;
+}
+
+input[type=submit],button {
+    display: inline-block;
+    font-family: Bradley Hand, cursive;
+    font-size: 14px;
+    font-weight: bold;
+    color: #6699ff;
+    text-decoration: none;
+    user-select: none;
+    padding: .2em 1.2em;
+    outline: none;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 2px;
+    background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);
+    transition: all .218s ease 0s;
+}
+input[type=submit]:hover,button:hover {
+    color: #4682B4;
+    border: 1px solid rgb(198,198,198);
+    background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+input[type=submit]:active,button:active {
+    color: #4682B4;
+    border: 1px solid rgb(204,204,204);
+    background: rgb(238,238,238) linear-gradient(rgb(238,238,238), rgb(224,224,224));
+    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+}
+.blok-center {
+    background-size: cover;
+    background-image:url("https://don16obqbay2c.cloudfront.net/wp-content/uploads/ru/Cinamgr_Anim_1-1491381412.gif");
+    position: absolute; /* Абсолютное позиционирование */
+    width: 60%; /* Ширина блока */
+    height: 60%; /* Высота блока */
+    margin: auto; /* Отступ от блока */
+    top: 0; /* Положение блока от верхнего края */
+    bottom: 0; /* Положение блока от нижнего края */
+    left: 0; /* Положение блока от левого края */
+    right: 0; /* Положение блока от правого края */
+    padding: 10px; /* Отступ внутри блока */
+    overflow: auto; /* Полоса прокрутки */
+}
+.header {
+    color: #6699ff;
+    text-align: center;
+    font-size:35px;
+    padding: 10px; /* Поля вокруг текста */
+}
+.sidebar {
+    float: left; /* Обтекание справа */
+    width: 20%; /* Ширина левой колонки */
+    padding: 5px; /* Поля внутри блока */
+    margin: 10px 10px 20px 5px; /* Значения отступа от блока */
+    color: #6699ff;
+}
+
+.content {
+    margin: 10px 5px 20px 25%; /* Значения отступа от левого блока */
+    padding: 5px; /* Поля внутри блока */
+    height: 100%;
+}
+a {
+    color: #FF7F50;
+    text-decoration: none;
+    letter-spacing: 1px;
+    margin: 15px 25px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Bradley Hand, cursive;
+    transition: 0.4s ease-in-out;
+}
+a:hover{
+    color: #D2691E;
+}
+.element{
+    display: inline-block;
+    width: 200px;
+    height: auto;
+    padding: 10px;
+    color: #6699ff;
+}
+img{
+    width:100%;
+    height:auto;
+}
+.description{
+    display: inline-block;
+    width:200px;
+    height: 200px;
+}
