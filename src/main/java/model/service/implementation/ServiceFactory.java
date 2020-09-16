@@ -7,15 +7,15 @@ import model.service.interfaces.IServiceFactory;
 import model.service.interfaces.IUserService;
 
 public class ServiceFactory implements IServiceFactory {
-    public IUserService GetUserService() {
+    public IUserService getUserService() {
         return new UserService();
     }
 
-    public IAdminService GetAdminService() {
+    public IAdminService getAdminService() {
         return new AdminService();
     }
 
-    public IService GetService() {
+    public IService getService() {
         return new Service();
     }
 }

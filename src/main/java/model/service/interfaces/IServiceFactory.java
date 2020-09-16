@@ -1,9 +1,9 @@
 package model.service.interfaces;
 
 public interface IServiceFactory {
-    IUserService GetUserService();
+    IUserService getUserService();
 
-    IAdminService GetAdminService();
+    IAdminService getAdminService();
 
-    IService GetService();
+    IService getService();
 }

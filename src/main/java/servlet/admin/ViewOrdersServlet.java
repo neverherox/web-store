@@ -27,10 +27,10 @@ public class ViewOrdersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
+        IAdminService adminService = serviceFactory.getAdminService();
         List<User> users = null;
         try {
-            users = adminService.GetUsers();
+            users = adminService.getUsers();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

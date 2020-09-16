@@ -10,20 +10,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IService {
-    List<Product> GetProducts() throws SQLException, NamingException;
+    List<Product> getProducts() throws SQLException, NamingException;
 
-    User GetUser(String login, String password) throws SQLException, NamingException;
+    User getUser(String login, String password) throws SQLException, NamingException;
 
-    void SetUser(User user) throws SQLException, NamingException;
+    void setUser(User user) throws SQLException, NamingException;
 
-    Product GetProduct(int id) throws SQLException;
+    Product getProduct(int id) throws SQLException;
 
-    User GetUser(int id) throws SQLException;
+    User getUser(int id) throws SQLException;
 
-    List<Catalog> GetCatalogs() throws SQLException, NamingException;
+    List<Catalog> getCatalogs() throws SQLException, NamingException;
 
-    Catalog GetCatalog(int id) throws SQLException, NamingException;
+    Catalog getCatalog(int id) throws SQLException, NamingException;
 
-    void AddOrder(Order order) throws SQLException;
+    void addOrder(Order order) throws SQLException;
 
 }

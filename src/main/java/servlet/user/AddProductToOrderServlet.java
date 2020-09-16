@@ -20,11 +20,11 @@ public class AddProductToOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IUserService userService = serviceFactory.GetUserService();
+        IUserService userService = serviceFactory.getUserService();
         int userId = Integer.parseInt(request.getParameter("userId"));
         User user = null;
         try {
-            user = userService.GetUser(userId);
+            user = userService.getUser(userId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -33,13 +33,13 @@ public class AddProductToOrderServlet extends HttpServlet {
             int productId = Integer.parseInt(request.getParameter("add"));
             Product product = null;
             try {
-                product = userService.GetProduct(productId);
+                product = userService.getProduct(productId);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             Order order = user.getOrder();
             try {
-                userService.AddProductToOrder(order, product);
+                userService.addProductToOrder(order, product);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

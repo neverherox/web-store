@@ -18,26 +18,26 @@ public class DeleteProductFromOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IUserService userService = serviceFactory.GetUserService();
+        IUserService userService = serviceFactory.getUserService();
         int userId = Integer.parseInt(request.getParameter("userId"));
         User user = null;
         try {
-            user = userService.GetUser(userId);
+            user = userService.getUser(userId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         if (request.getParameter("deleteButton") != null) {
             try {
                 int productId = Integer.parseInt(request.getParameter("productId"));
-                Product product = userService.GetProduct(productId);
+                Product product = userService.getProduct(productId);
                 Order order = user.getOrder();
-                userService.DeleteProductFromOrder(order, product);
+                userService.deleteProductFromOrder(order, product);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
         try {
-            user = userService.GetUser(userId);
+            user = userService.getUser(userId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

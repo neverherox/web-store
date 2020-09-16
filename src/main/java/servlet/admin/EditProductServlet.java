@@ -16,11 +16,11 @@ public class EditProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
+        IAdminService adminService = serviceFactory.getAdminService();
         int id = Integer.parseInt(request.getParameter("productId"));
         Product product = null;
         try {
-            product = adminService.GetProduct(id);
+            product = adminService.getProduct(id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -28,7 +28,7 @@ public class EditProductServlet extends HttpServlet {
         product.setPrice(Double.parseDouble(request.getParameter("price")));
         product.setDescription(request.getParameter("description"));
         try {
-            adminService.EditProduct(product);
+            adminService.editProduct(product);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -38,12 +38,12 @@ public class EditProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
+        IAdminService adminService = serviceFactory.getAdminService();
         if (request.getParameter("editButton") != null) {
             int id = Integer.parseInt(request.getParameter("edit"));
             Product product = null;
             try {
-                product = adminService.GetProduct(id);
+                product = adminService.getProduct(id);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

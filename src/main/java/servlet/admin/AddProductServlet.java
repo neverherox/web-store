@@ -23,10 +23,10 @@ public class AddProductServlet extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         String description = request.getParameter("description");
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
+        IAdminService adminService = serviceFactory.getAdminService();
         Catalog catalog = null;
         try {
-            catalog = adminService.GetCatalog(catalogId);
+            catalog = adminService.getCatalog(catalogId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (NamingException e) {
@@ -40,7 +40,7 @@ public class AddProductServlet extends HttpServlet {
         product.setDescription(description);
 
         try {
-            adminService.AddProduct(product);
+            adminService.addProduct(product);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

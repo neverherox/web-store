@@ -31,10 +31,10 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute("user");
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
+        IAdminService adminService = serviceFactory.getAdminService();
         List<Product> products = null;
         try {
-            products = adminService.GetProducts();
+            products = adminService.getProducts();
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }

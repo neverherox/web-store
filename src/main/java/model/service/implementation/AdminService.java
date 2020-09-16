@@ -18,21 +18,21 @@ import java.util.List;
 public class AdminService extends Service implements IAdminService {
 
 
-    public void DeleteProduct(Product product) throws SQLException {
+    public void deleteProduct(Product product) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
         ProductDao productDao = new ProductDao(conn);
         productDao.deleteEntity(product);
         conn.close();
     }
 
-    public void AddProduct(Product product) throws SQLException {
+    public void addProduct(Product product) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
         ProductDao productDao = new ProductDao(conn);
         productDao.addEntity(product);
         conn.close();
     }
 
-    public List<Order> GetOrders() throws SQLException {
+    public List<Order> getOrders() throws SQLException {
         Connection conn = ConnectionPool.getConnection();
         OrderDao orderDao = new OrderDao(conn);
         ProductDao productDao = new ProductDao(conn);
@@ -49,14 +49,14 @@ public class AdminService extends Service implements IAdminService {
         return orders;
     }
 
-    public void EditProduct(Product product) throws SQLException {
+    public void editProduct(Product product) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
         ProductDao productDao = new ProductDao(conn);
         productDao.editEntity(product);
         conn.close();
     }
 
-    public List<User> GetUsers() throws SQLException {
+    public List<User> getUsers() throws SQLException {
         Connection conn = ConnectionPool.getConnection();
         UserDao userDao = new UserDao(conn);
         OrderDao orderDao = new OrderDao(conn);

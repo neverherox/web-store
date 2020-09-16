@@ -29,10 +29,10 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         IServiceFactory serviceFactory = new ServiceFactory();
-        IUserService userService = serviceFactory.GetUserService();
+        IUserService userService = serviceFactory.getUserService();
         List<Product> products = null;
         try {
-            products = userService.GetProducts();
+            products = userService.getProducts();
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class UserServlet extends HttpServlet {
         for (Product product : products) {
             Catalog catalog = null;
             try {
-                catalog = userService.GetCatalog(product.getCatalog().getId());
+                catalog = userService.getCatalog(product.getCatalog().getId());
             } catch (SQLException | NamingException throwables) {
                 throwables.printStackTrace();
             }

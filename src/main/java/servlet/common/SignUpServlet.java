@@ -36,17 +36,17 @@ public class SignUpServlet extends HttpServlet {
             return;
         }
         IServiceFactory serviceFactory = new ServiceFactory();
-        IService service = serviceFactory.GetService();
+        IService service = serviceFactory.getService();
         User user = new User(login, password, UserRole.USER);
         Order order = new Order();
         order.setStatus(OrderStatus.UNPAID);
         try {
-            service.AddOrder(order);
+            service.addOrder(order);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
-            service.SetUser(user);
+            service.setUser(user);
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }

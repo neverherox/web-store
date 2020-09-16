@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IAdminService extends IService {
-    void DeleteProduct(Product product) throws SQLException;
+    void deleteProduct(Product product) throws SQLException;
 
-    void AddProduct(Product product) throws SQLException;
+    void addProduct(Product product) throws SQLException;
 
-    List<Order> GetOrders() throws SQLException;
+    List<Order> getOrders() throws SQLException;
 
-    void EditProduct(Product product) throws SQLException;
+    void editProduct(Product product) throws SQLException;
 
-    List<User> GetUsers() throws SQLException;
+    List<User> getUsers() throws SQLException;
 }

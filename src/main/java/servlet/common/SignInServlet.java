@@ -23,10 +23,10 @@ public class SignInServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         IServiceFactory serviceFactory = new ServiceFactory();
-        IService service = serviceFactory.GetService();
+        IService service = serviceFactory.getService();
         User user = null;
         try {
-            user = service.GetUser(login, password);
+            user = service.getUser(login, password);
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }

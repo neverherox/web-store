@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Service implements IService {
 
-    public List<Product> GetProducts() throws SQLException {
+    public List<Product> getProducts() throws SQLException {
         Connection conn = ConnectionPool.getConnection();
 
         ProductDao productDao = new ProductDao(conn);
@@ -32,7 +32,7 @@ public class Service implements IService {
         return products;
     }
 
-    public User GetUser(String login, String password) throws SQLException {
+    public User getUser(String login, String password) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
 
         UserDao userDao = new UserDao(conn);
@@ -53,7 +53,7 @@ public class Service implements IService {
         return user;
     }
 
-    public void SetUser(User user) throws SQLException {
+    public void setUser(User user) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
         OrderDao orderDao = new OrderDao(conn);
         UserDao userDao = new UserDao(conn);
@@ -67,7 +67,7 @@ public class Service implements IService {
 
     }
 
-    public void AddOrder(Order order) throws SQLException {
+    public void addOrder(Order order) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
 
         OrderDao orderDao = new OrderDao(conn);
@@ -75,7 +75,7 @@ public class Service implements IService {
         conn.close();
     }
 
-    public Product GetProduct(int id) throws SQLException {
+    public Product getProduct(int id) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
 
         ProductDao productDao = new ProductDao(conn);
@@ -86,7 +86,7 @@ public class Service implements IService {
         return product;
     }
 
-    public User GetUser(int id) throws SQLException {
+    public User getUser(int id) throws SQLException {
         Connection conn = ConnectionPool.getConnection();
 
         UserDao userDao = new UserDao(conn);
@@ -107,7 +107,7 @@ public class Service implements IService {
         return user;
     }
 
-    public List<Catalog> GetCatalogs() throws SQLException, NamingException {
+    public List<Catalog> getCatalogs() throws SQLException, NamingException {
         Connection conn = ConnectionPool.getConnection();
 
         CatalogDao catalogDao = new CatalogDao(conn);
@@ -116,7 +116,7 @@ public class Service implements IService {
         return catalogs;
     }
 
-    public Catalog GetCatalog(int id) throws SQLException, NamingException {
+    public Catalog getCatalog(int id) throws SQLException, NamingException {
         Connection conn = ConnectionPool.getConnection();
 
         CatalogDao catalogDao = new CatalogDao(conn);

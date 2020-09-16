@@ -28,11 +28,11 @@ public class ViewUserOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IUserService userService = serviceFactory.GetUserService();
+        IUserService userService = serviceFactory.getUserService();
         int userId = Integer.parseInt(request.getParameter("id"));
         User user = null;
         try {
-            user = userService.GetUser(userId);
+            user = userService.getUser(userId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

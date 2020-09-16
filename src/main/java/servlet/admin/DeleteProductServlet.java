@@ -17,17 +17,17 @@ public class DeleteProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
+        IAdminService adminService = serviceFactory.getAdminService();
         if (request.getParameter("deleteButton") != null) {
             int id = Integer.parseInt(request.getParameter("delete"));
             Product product = null;
             try {
-                product = adminService.GetProduct(id);
+                product = adminService.getProduct(id);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             try {
-                adminService.DeleteProduct(product);
+                adminService.deleteProduct(product);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
