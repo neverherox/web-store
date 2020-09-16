@@ -1,10 +1,11 @@
-package servlet.admin;
+package servlet.user;
 
 import model.entity.Catalog;
+import model.entity.Order;
 import model.entity.Product;
 import model.entity.User;
-import model.service.interfaces.IAdminService;
 import model.service.interfaces.IServiceFactory;
+import model.service.interfaces.IUserService;
 import model.service.implementation.ServiceFactory;
 
 import javax.naming.NamingException;
@@ -12,33 +13,31 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminServlet extends HttpServlet {
+public class ViewUserOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("add") != null) {
-            request.getRequestDispatcher("/jsp/admin/add_product.jsp").forward(request, response);
-        }
+
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
-        List<Product> products = null;
+        IUserService userService = serviceFactory.GetUserService();
+        int userId = Integer.parseInt(request.getParameter("id"));
+        User user = null;
         try {
-            products = adminService.GetProducts();
-        } catch (SQLException | NamingException throwables) {
+            user = userService.GetUser(userId);
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/jsp/admin/admin.jsp").forward(request, response);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/jsp/user/user_order.jsp").forward(request, response);
     }
+
 }

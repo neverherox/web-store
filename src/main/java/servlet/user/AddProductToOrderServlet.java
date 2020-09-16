@@ -1,8 +1,11 @@
-package servlet.admin;
+package servlet.user;
 
+import model.entity.Order;
+import model.entity.OrderStatus;
 import model.entity.Product;
-import model.service.interfaces.IAdminService;
+import model.entity.User;
 import model.service.interfaces.IServiceFactory;
+import model.service.interfaces.IUserService;
 import model.service.implementation.ServiceFactory;
 
 import javax.servlet.ServletException;
@@ -13,26 +16,36 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-public class DeleteProductServlet extends HttpServlet {
+public class AddProductToOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         IServiceFactory serviceFactory = new ServiceFactory();
-        IAdminService adminService = serviceFactory.GetAdminService();
-        if (request.getParameter("deleteButton") != null) {
-            int id = Integer.parseInt(request.getParameter("delete"));
+        IUserService userService = serviceFactory.GetUserService();
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        User user = null;
+        try {
+            user = userService.GetUser(userId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (request.getParameter("addButton") != null) {
+
+            int productId = Integer.parseInt(request.getParameter("add"));
             Product product = null;
             try {
-                product = adminService.GetProduct(id);
+                product = userService.GetProduct(productId);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            Order order = user.getOrder();
             try {
-                adminService.DeleteProduct(product);
+                userService.AddProductToOrder(order, product);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+
         }
-        response.sendRedirect("admin");
+        response.sendRedirect("user");
     }
 
     @Override

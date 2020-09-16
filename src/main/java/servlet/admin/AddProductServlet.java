@@ -1,15 +1,19 @@
 package servlet.admin;
 
-import entity.Product;
-import service.interfaces.IAdminService;
-import service.interfaces.IServiceFactory;
-import service.objects.ServiceFactory;
+import model.entity.Catalog;
+import model.entity.Product;
+import model.service.implementation.AdminService;
+import model.service.interfaces.IAdminService;
+import model.service.interfaces.IServiceFactory;
+import model.service.implementation.ServiceFactory;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class AddProductServlet extends HttpServlet {
     @Override
@@ -20,10 +24,29 @@ public class AddProductServlet extends HttpServlet {
         String description = request.getParameter("description");
         IServiceFactory serviceFactory = new ServiceFactory();
         IAdminService adminService = serviceFactory.GetAdminService();
-        Product product = new Product(catalogId,name,price,description);
-        adminService.AddProduct(product);
+        Catalog catalog = null;
+        try {
+            catalog = adminService.GetCatalog(catalogId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+
+        Product product = new Product();
+        product.setCatalog(catalog);
+        product.setName(name);
+        product.setPrice(price);
+        product.setDescription(description);
+
+        try {
+            adminService.AddProduct(product);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         response.sendRedirect("admin");
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
