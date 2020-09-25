@@ -24,15 +24,4 @@ public abstract class AbstractDao<T extends Entity> {
     public abstract void deleteEntity(T entity);
 
     public abstract void editEntity(T entity);
-
-
-    public void close(Statement st) {
-        try {
-            if (st != null) {
-                st.close();
-            }
-        } catch (SQLException e) { // лог о невозможности закрытия Statement } }
-
-        }
-    }
 }

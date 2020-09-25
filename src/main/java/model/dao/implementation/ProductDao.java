@@ -18,9 +18,7 @@ public class ProductDao extends AbstractDao<Product> {
     public List<Product> getAll() {
 
         List<Product> products = new ArrayList<Product>();
-        Statement statement = null;
-        try {
-            statement = conn.createStatement();
+        try(Statement statement = conn.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM product");
             while (resultSet.next()) {
                 Product product = new Product();
@@ -36,8 +34,6 @@ public class ProductDao extends AbstractDao<Product> {
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(statement);
         }
         return products;
     }
@@ -46,9 +42,7 @@ public class ProductDao extends AbstractDao<Product> {
     public void addEntity(Product entity) {
 
         String sql = "INSERT INTO product(catalog_id, productName, description, price) Values(?, ?, ?, ?)";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, entity.getCatalog().getId());
             preparedStatement.setString(2, entity.getName());
             preparedStatement.setString(3, entity.getDescription());
@@ -56,8 +50,6 @@ public class ProductDao extends AbstractDao<Product> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
     }
 
@@ -66,15 +58,11 @@ public class ProductDao extends AbstractDao<Product> {
     public void deleteEntity(Product entity) {
 
         String sql = "DELETE FROM product WHERE id = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
     }
 
@@ -83,9 +71,7 @@ public class ProductDao extends AbstractDao<Product> {
     public void editEntity(Product entity) {
 
         String sql = "UPDATE product SET productName = ?, description = ?, price = ? WHERE id = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(4, entity.getId());
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setDouble(3, entity.getPrice());
@@ -93,8 +79,6 @@ public class ProductDao extends AbstractDao<Product> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
     }
 
@@ -103,9 +87,7 @@ public class ProductDao extends AbstractDao<Product> {
 
         Product product = new Product();
         String sql = "SELECT * FROM product WHERE id = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -121,10 +103,7 @@ public class ProductDao extends AbstractDao<Product> {
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
-
         return product;
     }
 }

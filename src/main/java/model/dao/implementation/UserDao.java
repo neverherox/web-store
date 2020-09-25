@@ -19,9 +19,7 @@ public class UserDao extends AbstractDao<User> {
     public User getUser(String login, String password) {
         User user = new User();
         String sql = "SELECT * FROM user WHERE login = ? AND password = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -36,8 +34,6 @@ public class UserDao extends AbstractDao<User> {
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
         return user;
     }
@@ -45,9 +41,7 @@ public class UserDao extends AbstractDao<User> {
 
     public List<User> getAll() {
         List<User> users = new ArrayList<User>();
-        Statement statement = null;
-        try {
-            statement = conn.createStatement();
+        try(Statement statement = conn.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
             while (resultSet.next()) {
                 User user = new User();
@@ -62,10 +56,7 @@ public class UserDao extends AbstractDao<User> {
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(statement);
         }
-
         return users;
     }
 
@@ -73,9 +64,7 @@ public class UserDao extends AbstractDao<User> {
     public void addEntity(User entity) {
 
         String sql = "INSERT INTO user(login, password, role, userorder_id) Values(?, ?, ?, ?)";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setString(3, entity.getRole().toString());
@@ -84,8 +73,6 @@ public class UserDao extends AbstractDao<User> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
     }
 
@@ -98,16 +85,12 @@ public class UserDao extends AbstractDao<User> {
     @Override
     public void editEntity(User entity) {
         String sql = "UPDATE user SET userorder_id = ? WHERE id = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, entity.getOrder().getId());
             preparedStatement.setInt(2, entity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
     }
 

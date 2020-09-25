@@ -31,9 +31,7 @@ public class CatalogDao extends AbstractDao<Catalog> {
     @Override
     public List<Catalog> getAll() {
         List<Catalog> catalogs = new ArrayList<Catalog>();
-        Statement statement = null;
-        try {
-            statement = conn.createStatement();
+        try(Statement statement = conn.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM catalog");
             while (resultSet.next()) {
                 Catalog catalog = new Catalog();
@@ -43,10 +41,7 @@ public class CatalogDao extends AbstractDao<Catalog> {
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(statement);
         }
-
         return catalogs;
     }
 
@@ -55,9 +50,7 @@ public class CatalogDao extends AbstractDao<Catalog> {
 
         Catalog catalog = new Catalog();
         String sql = "SELECT * FROM catalog WHERE id = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = conn.prepareStatement(sql);
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -66,8 +59,6 @@ public class CatalogDao extends AbstractDao<Catalog> {
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
-        } finally {
-            close(preparedStatement);
         }
         return catalog;
     }
