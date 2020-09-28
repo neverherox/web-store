@@ -17,10 +17,11 @@ import java.util.List;
 
 
 public class UserService extends Service implements IUserService {
+    private ConnectionPool pool = new ConnectionPool();
 
 
     public void deleteOrder(Order order) throws SQLException {
-        Connection conn = ConnectionPool.getConnection();
+        Connection conn = pool.getConnection();
 
         OrderDao orderDao = new OrderDao(conn);
         orderDao.deleteEntity(order);
@@ -28,7 +29,7 @@ public class UserService extends Service implements IUserService {
     }
 
     public void editOrder(Order order) throws SQLException {
-        Connection conn = ConnectionPool.getConnection();
+        Connection conn = pool.getConnection();
 
         OrderDao orderDao = new OrderDao(conn);
         orderDao.editEntity(order);
@@ -37,14 +38,14 @@ public class UserService extends Service implements IUserService {
     }
 
     public void addProductToOrder(Order order, Product product) throws SQLException {
-        Connection conn = ConnectionPool.getConnection();
+        Connection conn = pool.getConnection();
         OrderDao orderDao = new OrderDao(conn);
         orderDao.addProductToOrder(order, product);
         conn.close();
     }
 
     public void editUser(User user) throws SQLException {
-        Connection conn = ConnectionPool.getConnection();
+        Connection conn = pool.getConnection();
 
         UserDao userDao = new UserDao(conn);
         userDao.editEntity(user);
@@ -53,7 +54,7 @@ public class UserService extends Service implements IUserService {
     }
 
     public Order getOrder(int orderId) throws SQLException {
-        Connection conn = ConnectionPool.getConnection();
+        Connection conn = pool.getConnection();
 
         OrderDao orderDao = new OrderDao(conn);
         ProductDao productDao = new ProductDao(conn);
@@ -72,7 +73,7 @@ public class UserService extends Service implements IUserService {
     }
 
     public void deleteProductFromOrder(Order order, Product product) throws SQLException {
-        Connection conn = ConnectionPool.getConnection();
+        Connection conn = pool.getConnection();
         OrderDao orderDao = new OrderDao(conn);
         orderDao.deleteProductFromOrder(order, product);
         conn.close();

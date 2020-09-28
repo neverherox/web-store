@@ -13,20 +13,18 @@ public class ConnectionPool {
     private static final String DATASOURCE_NAME = "jdbc/store";
     private static DataSource dataSource;
 
-    static {
-        try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            dataSource = (DataSource) envContext.lookup(DATASOURCE_NAME);
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+    public ConnectionPool() {
+            try {
+                Context initContext = new InitialContext();
+                Context envContext = (Context) initContext.lookup("java:/comp/env");
+                dataSource = (DataSource) envContext.lookup(DATASOURCE_NAME);
+            } catch (NamingException e) {
+                e.printStackTrace();
+            }
+
     }
 
-    private ConnectionPool() {
-    }
-
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         Connection conn = dataSource.getConnection();
         return conn;
     }
