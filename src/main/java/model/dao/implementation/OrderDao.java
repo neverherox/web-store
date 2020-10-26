@@ -1,9 +1,11 @@
 package model.dao.implementation;
 
 import model.dao.abtract.AbstractDao;
+import model.entity.Catalog;
 import model.entity.Order;
 import model.entity.OrderStatus;
 import model.entity.Product;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,38 +16,11 @@ public class OrderDao extends AbstractDao<Order> {
         super(conn);
     }
 
+    @Override
     public List<Order> getAll() {
-        List<Order> orders = new ArrayList<Order>();
-        String sql = "SELECT * FROM order_product WHERE order_id = ?";
-        try(Statement statement = conn.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM userorder");
-            while (resultSet.next()) {
-                Order order = new Order();
-                order.setId(resultSet.getInt(1));
-
-               try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                   preparedStatement.setInt(1, order.getId());
-                   ResultSet resultSet1 = preparedStatement.executeQuery();
-                   List<Product> products = new ArrayList<>();
-                   while (resultSet1.next()) {
-                       Product product = new Product();
-                       product.setId(resultSet1.getInt(2));
-                       products.add(product);
-                   }
-                   order.setProducts(products);
-                   order.setStatus(OrderStatus.valueOf(resultSet.getString(2)));
-                   orders.add(order);
-               }
-               catch (SQLException e)
-               {
-                   System.err.println("SQL exception (request or table failed): " + e);
-               }
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
-        }
-        return orders;
+        throw new NotImplementedException();
     }
+
 
     @Override
     public void addEntity(Order entity) {
@@ -108,35 +83,37 @@ public class OrderDao extends AbstractDao<Order> {
     public Order getEntityById(int id) {
 
         Order order = new Order();
-        String sql = "SELECT * FROM userorder WHERE id = ?";
-        String sql1 = "SELECT * FROM order_product WHERE order_id = ?";
+        List<Product> products = new ArrayList<>();
+
+
+        String sql = "SELECT * FROM order_product" +
+                " JOIN userorder ON userorder.id = order_product.order_id" +
+                " JOIN product ON product.id = order_product.product_id" +
+                " JOIN catalog ON catalog.id = product.catalog_id" +
+                " WHERE order_product.order_id = ?";
 
         try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-            try(PreparedStatement preparedStatement1 = conn.prepareStatement(sql1))
-                {
                     preparedStatement.setInt(1, id);
-                    preparedStatement1.setInt(1, id);
-
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    if (resultSet.next()) {
+                    while (resultSet.next()) {
                         order.setId(resultSet.getInt(1));
-                        ResultSet resultSet1 = preparedStatement1.executeQuery();
-                        List<Product> products = new ArrayList<>();
-                        while (resultSet1.next()) {
-                            Product product = new Product();
-                            product.setId(resultSet1.getInt(2));
-                            products.add(product);
-                        }
+                        Product product = new Product();
+                        product.setId(resultSet.getInt(2));
+                        order.setStatus(OrderStatus.valueOf(resultSet.getString(4)));
+                        product.setName(resultSet.getString(6));
+                        product.setDescription(resultSet.getString(7));
+                        product.setPrice(resultSet.getDouble(8));
+                        Catalog catalog = new Catalog();
+                        catalog.setId(resultSet.getInt(11));
+                        catalog.setName(resultSet.getString(12));
+                        product.setCatalog(catalog);
+                        products.add(product);
                         order.setProducts(products);
-                        order.setStatus(OrderStatus.valueOf(resultSet.getString(2)));
                     }
                 }
                 catch(SQLException e){
                     System.err.println("SQL exception (request or table failed): " + e);
                 }
-            } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
-        }
         return order;
     }
 

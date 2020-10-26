@@ -2,6 +2,7 @@ package model.dao.implementation;
 
 import model.dao.abtract.AbstractDao;
 import model.entity.Order;
+import model.entity.OrderStatus;
 import model.entity.User;
 import model.entity.UserRole;
 
@@ -18,7 +19,7 @@ public class UserDao extends AbstractDao<User> {
 
     public User getUser(String login, String password) {
         User user = new User();
-        String sql = "SELECT * FROM user WHERE login = ? AND password = ?";
+        String sql = "SELECT * FROM user JOIN userorder ON userorder.id = user.userorder_id WHERE user.login = ? AND user.password = ?";
         try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
@@ -29,7 +30,8 @@ public class UserDao extends AbstractDao<User> {
                 user.setPassword(resultSet.getString(3));
                 user.setRole(UserRole.valueOf(resultSet.getString(4)));
                 Order order = new Order();
-                order.setId(resultSet.getInt(5));
+                order.setId(resultSet.getInt(6));
+                order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
                 user.setOrder(order);
             }
         } catch (SQLException e) {
@@ -42,7 +44,7 @@ public class UserDao extends AbstractDao<User> {
     public List<User> getAll() {
         List<User> users = new ArrayList<User>();
         try(Statement statement = conn.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM user");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM user JOIN userorder ON userorder.id = user.userorder_id");
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getInt(1));
@@ -50,7 +52,8 @@ public class UserDao extends AbstractDao<User> {
                 user.setPassword(resultSet.getString(3));
                 user.setRole(UserRole.valueOf(resultSet.getString(4)));
                 Order order = new Order();
-                order.setId(resultSet.getInt(5));
+                order.setId(resultSet.getInt(6));
+                order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
                 user.setOrder(order);
                 users.add(user);
             }
@@ -96,7 +99,7 @@ public class UserDao extends AbstractDao<User> {
 
     public User getEntityById(int id) {
         User user = new User();
-        String sql = "SELECT * FROM user WHERE id = ?";
+        String sql = "SELECT * FROM user JOIN userorder ON userorder.id = user.userorder_id WHERE user.id = ?";
         try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -106,7 +109,8 @@ public class UserDao extends AbstractDao<User> {
                 user.setPassword(resultSet.getString(3));
                 user.setRole(UserRole.valueOf(resultSet.getString(4)));
                 Order order = new Order();
-                order.setId(resultSet.getInt(5));
+                order.setId(resultSet.getInt(6));
+                order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
                 user.setOrder(order);
             }
         } catch (SQLException throwables) {

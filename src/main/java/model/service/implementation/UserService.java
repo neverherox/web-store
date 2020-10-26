@@ -12,8 +12,7 @@ import model.service.interfaces.IUserService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class UserService extends Service implements IUserService {
@@ -57,17 +56,8 @@ public class UserService extends Service implements IUserService {
         Connection conn = pool.getConnection();
 
         OrderDao orderDao = new OrderDao(conn);
-        ProductDao productDao = new ProductDao(conn);
-        CatalogDao catalogDao = new CatalogDao(conn);
 
         Order order = orderDao.getEntityById(orderId);
-        List<Product> products = new ArrayList<>();
-        for (Product product : order.getProducts()) {
-            product = productDao.getEntityById(product.getId());
-            product.setCatalog(catalogDao.getEntityById(product.getCatalog().getId()));
-            products.add(product);
-        }
-        order.setProducts(products);
         conn.close();
         return order;
     }

@@ -19,17 +19,18 @@ public class ProductDao extends AbstractDao<Product> {
 
         List<Product> products = new ArrayList<Product>();
         try(Statement statement = conn.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM product");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM product JOIN catalog ON catalog.id = product.catalog_id");
             while (resultSet.next()) {
                 Product product = new Product();
                 product.setId(resultSet.getInt(1));
-                Catalog catalog = new Catalog();
-                catalog.setId(resultSet.getInt(5));
-                product.setCatalog(catalog);
                 product.setName(resultSet.getString(2));
                 product.setDescription(resultSet.getString(3));
                 product.setPrice(resultSet.getDouble(4));
                 product.setImage(resultSet.getString(6));
+                Catalog catalog = new Catalog();
+                catalog.setId(resultSet.getInt(7));
+                catalog.setName(resultSet.getString(8));
+                product.setCatalog(catalog);
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -86,20 +87,20 @@ public class ProductDao extends AbstractDao<Product> {
     public Product getEntityById(int id) {
 
         Product product = new Product();
-        String sql = "SELECT * FROM product WHERE id = ?";
+        String sql = "SELECT * FROM product JOIN catalog ON catalog.id = product.catalog_id  WHERE product.id = ?";
         try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 product.setId(resultSet.getInt(1));
-                int catalogId = resultSet.getInt(5);
-                Catalog catalog = new Catalog();
-                catalog.setId(catalogId);
-                product.setCatalog(catalog);
                 product.setName(resultSet.getString(2));
                 product.setDescription(resultSet.getString(3));
                 product.setPrice(resultSet.getDouble(4));
                 product.setImage(resultSet.getString(6));
+                Catalog catalog = new Catalog();
+                catalog.setId(resultSet.getInt(7));
+                catalog.setName(resultSet.getString(8));
+                product.setCatalog(catalog);
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);

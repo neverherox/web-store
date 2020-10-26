@@ -2,6 +2,7 @@ package model.dao.implementation;
 
 import model.dao.abtract.AbstractDao;
 import model.entity.Catalog;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,16 +16,19 @@ public class CatalogDao extends AbstractDao<Catalog> {
 
     @Override
     public void addEntity(Catalog entity) {
+        throw new NotImplementedException();
 
     }
 
     @Override
     public void deleteEntity(Catalog entity) {
+        throw new NotImplementedException();
 
     }
 
     @Override
     public void editEntity(Catalog entity) {
+        throw new NotImplementedException();
 
     }
 

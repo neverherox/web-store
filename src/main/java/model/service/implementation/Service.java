@@ -14,7 +14,6 @@ import model.service.interfaces.IService;
 import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Service implements IService {
@@ -25,32 +24,20 @@ public class Service implements IService {
         Connection conn = pool.getConnection();
 
         ProductDao productDao = new ProductDao(conn);
-        CatalogDao catalogDao = new CatalogDao(conn);
         List<Product> products = productDao.getAll();
-        for (Product product : products) {
-            product.setCatalog(catalogDao.getEntityById(product.getCatalog().getId()));
-        }
         conn.close();
         return products;
     }
+
 
     public User getUser(String login, String password) throws SQLException {
         Connection conn = pool.getConnection();
 
         UserDao userDao = new UserDao(conn);
         OrderDao orderDao = new OrderDao(conn);
-        ProductDao productDao = new ProductDao(conn);
-        CatalogDao catalogDao = new CatalogDao(conn);
 
         User user = userDao.getUser(login, password);
         user.setOrder(orderDao.getEntityById(user.getOrder().getId()));
-        List<Product> products = new ArrayList<>();
-        for (Product product : user.getOrder().getProducts()) {
-            product = productDao.getEntityById(product.getId());
-            product.setCatalog(catalogDao.getEntityById(product.getCatalog().getId()));
-            products.add(product);
-        }
-        user.getOrder().setProducts(products);
         conn.close();
         return user;
     }
@@ -59,7 +46,7 @@ public class Service implements IService {
         Connection conn = pool.getConnection();
         OrderDao orderDao = new OrderDao(conn);
         UserDao userDao = new UserDao(conn);
-        List<Order> orders = new ArrayList<>();
+        List<Order> orders;
         orders = orderDao.getAll();
         int count = orders.size();
         Order order = orders.get(count - 1);
@@ -81,9 +68,7 @@ public class Service implements IService {
         Connection conn = pool.getConnection();
 
         ProductDao productDao = new ProductDao(conn);
-        CatalogDao catalogDao = new CatalogDao(conn);
         Product product = productDao.getEntityById(id);
-        product.setCatalog(catalogDao.getEntityById(product.getCatalog().getId()));
         conn.close();
         return product;
     }
@@ -93,18 +78,9 @@ public class Service implements IService {
 
         UserDao userDao = new UserDao(conn);
         OrderDao orderDao = new OrderDao(conn);
-        ProductDao productDao = new ProductDao(conn);
-        CatalogDao catalogDao = new CatalogDao(conn);
 
         User user = userDao.getEntityById(id);
         user.setOrder(orderDao.getEntityById(user.getOrder().getId()));
-        List<Product> products = new ArrayList<>();
-        for (Product product : user.getOrder().getProducts()) {
-            product = productDao.getEntityById(product.getId());
-            product.setCatalog(catalogDao.getEntityById(product.getCatalog().getId()));
-            products.add(product);
-        }
-        user.getOrder().setProducts(products);
         conn.close();
         return user;
     }
