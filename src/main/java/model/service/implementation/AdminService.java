@@ -49,12 +49,8 @@ public class AdminService extends Service implements IAdminService {
     public List<User> getUsers() throws SQLException {
         Connection conn = pool.getConnection();
         UserDao userDao = new UserDao(conn);
-        OrderDao orderDao = new OrderDao(conn);
 
         List<User> users = userDao.getAll();
-        for (User user : users) {
-            user.setOrder(orderDao.getEntityById(user.getOrder().getId()));
-        }
         conn.close();
         return users;
     }

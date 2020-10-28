@@ -1,9 +1,7 @@
 package model.service.implementation;
 
-import model.dao.implementation.CatalogDao;
 import model.dao.pool.ConnectionPool;
 import model.dao.implementation.OrderDao;
-import model.dao.implementation.ProductDao;
 import model.dao.implementation.UserDao;
 import model.entity.Order;
 import model.entity.Product;

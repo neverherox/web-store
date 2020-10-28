@@ -14,13 +14,13 @@
 </div>
 <div class="content">
     <h2 style="color:#6699ff">Products</h2>
-    <c:forEach items="${products}" var="product" varStatus="status">
+    <c:forEach items="${products}" var="product">
         <div class="element">
             <img src="${product.image}"/><br>
             <div class="description">
                     ${product.name}<br>
                     ${product.price}<br>
-                    ${catalogs[status.index].name}<br>
+                    ${product.catalog.name}<br>
                     ${product.description}<br>
                 <form method="POST" action="add_product_to_order">
                     <input type="hidden" name="add" value="${product.id}">

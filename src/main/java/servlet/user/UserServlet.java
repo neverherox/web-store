@@ -36,18 +36,7 @@ public class UserServlet extends HttpServlet {
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }
-        List<Catalog> catalogs = new ArrayList<Catalog>();
-        for (Product product : products) {
-            Catalog catalog = null;
-            try {
-                catalog = userService.getCatalog(product.getCatalog().getId());
-            } catch (SQLException | NamingException throwables) {
-                throwables.printStackTrace();
-            }
-            catalogs.add(catalog);
-        }
         request.setAttribute("user", user);
-        request.setAttribute("catalogs", catalogs);
         request.setAttribute("products", products);
         request.getRequestDispatcher("/jsp/user/user.jsp").forward(request, response);
     }

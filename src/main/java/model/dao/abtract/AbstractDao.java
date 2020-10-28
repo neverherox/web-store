@@ -1,11 +1,9 @@
 package model.dao.abtract;
 
 import model.entity.Entity;
-import model.entity.Product;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public abstract class AbstractDao<T extends Entity> {

@@ -1,10 +1,11 @@
 package model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order extends Entity implements Serializable {
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
     private OrderStatus status;
 
     public Order() {

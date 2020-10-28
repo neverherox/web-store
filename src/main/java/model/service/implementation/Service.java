@@ -34,10 +34,8 @@ public class Service implements IService {
         Connection conn = pool.getConnection();
 
         UserDao userDao = new UserDao(conn);
-        OrderDao orderDao = new OrderDao(conn);
 
         User user = userDao.getUser(login, password);
-        user.setOrder(orderDao.getEntityById(user.getOrder().getId()));
         conn.close();
         return user;
     }
@@ -77,13 +75,12 @@ public class Service implements IService {
         Connection conn = pool.getConnection();
 
         UserDao userDao = new UserDao(conn);
-        OrderDao orderDao = new OrderDao(conn);
 
         User user = userDao.getEntityById(id);
-        user.setOrder(orderDao.getEntityById(user.getOrder().getId()));
         conn.close();
         return user;
     }
+
 
     public List<Catalog> getCatalogs() throws SQLException, NamingException {
         Connection conn = pool.getConnection();
