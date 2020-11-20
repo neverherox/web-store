@@ -1,48 +1,41 @@
 package servlet.user;
 
 import model.entity.Order;
-import model.entity.OrderStatus;
 import model.entity.Product;
 import model.entity.User;
-import model.service.interfaces.IServiceFactory;
-import model.service.interfaces.IUserService;
-import model.service.implementation.ServiceFactory;
+import model.service.implementation.OrderServiceImpl;
+import model.service.implementation.ProductServiceImpl;
+import model.service.implementation.UserServiceImpl;
+import model.service.interfaces.OrderService;
+import model.service.interfaces.ProductService;
+import model.service.interfaces.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 
 public class AddProductToOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        IServiceFactory serviceFactory = new ServiceFactory();
-        IUserService userService = serviceFactory.getUserService();
+        UserService userService = new UserServiceImpl();
+        ProductService productService = new ProductServiceImpl();
+        OrderService orderService = new OrderServiceImpl();
+
         int userId = Integer.parseInt(request.getParameter("userId"));
         User user = null;
-        try {
-            user = userService.getUser(userId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        user = userService.getUser(userId);
+
         if (request.getParameter("addButton") != null) {
 
             int productId = Integer.parseInt(request.getParameter("add"));
             Product product = null;
-            try {
-                product = userService.getProduct(productId);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            product = productService.getProduct(productId);
+
             Order order = user.getOrder();
-            try {
-                userService.addProductToOrder(order, product);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            orderService.addProductToOrder(order, product);
 
         }
         response.sendRedirect("user");

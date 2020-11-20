@@ -21,10 +21,10 @@ public class User extends Entity implements Serializable {
         this.order = order;
     }
 
-    public User(String login, String password, UserRole role) {
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
-        this.role = role;
+        this.role = UserRole.USER;
     }
 
     public int getId() {

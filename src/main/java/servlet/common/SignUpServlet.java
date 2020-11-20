@@ -3,19 +3,16 @@ package servlet.common;
 import model.entity.Order;
 import model.entity.OrderStatus;
 import model.entity.User;
-import model.entity.UserRole;
-import model.service.interfaces.IService;
-import model.service.interfaces.IServiceFactory;
-import model.service.implementation.ServiceFactory;
+import model.service.implementation.OrderServiceImpl;
+import model.service.implementation.UserServiceImpl;
+import model.service.interfaces.OrderService;
+import model.service.interfaces.UserService;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 public class SignUpServlet extends HttpServlet {
     @Override
@@ -26,6 +23,9 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
+        OrderService orderService = new OrderServiceImpl();
+
         request.setCharacterEncoding("UTF-8");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -35,21 +35,11 @@ public class SignUpServlet extends HttpServlet {
             request.getRequestDispatcher("jsp/signup.jsp").forward(request, response);
             return;
         }
-        IServiceFactory serviceFactory = new ServiceFactory();
-        IService service = serviceFactory.getService();
-        User user = new User(login, password, UserRole.USER);
-        Order order = new Order();
+        Order order  = new Order();
         order.setStatus(OrderStatus.UNPAID);
-        try {
-            service.addOrder(order);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        try {
-            service.setUser(user);
-        } catch (SQLException | NamingException throwables) {
-            throwables.printStackTrace();
-        }
+        orderService.addOrder(order);
+        User user = new User(login, password);
+        userService.addUser(user);
         request.getRequestDispatcher("jsp/signin.jsp").forward(request, response);
     }
 }

@@ -11,10 +11,6 @@ import java.sql.PreparedStatement;
 
 public class UserDao extends AbstractDao<User> {
 
-    public UserDao(Connection conn) {
-        super(conn);
-    }
-
     public User getUser(String login, String password) {
         User user = new User();
         String sql = "SELECT * FROM user" +
@@ -24,37 +20,40 @@ public class UserDao extends AbstractDao<User> {
                 " JOIN product ON product.id = order_product.product_id" +
                 " JOIN catalog ON catalog.id = product.catalog_id" +
                 " WHERE order_product.order_id = ?";
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-            preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                user.setId(resultSet.getInt(1));
-                user.setLogin(resultSet.getString(2));
-                user.setPassword(resultSet.getString(3));
-                user.setRole(UserRole.valueOf(resultSet.getString(4)));
-                Order order = new Order();
-                order.setId(resultSet.getInt(6));
-                order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
-                try (PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)){
-                    preparedStatement1.setInt(1, order.getId());
-                    resultSet = preparedStatement1.executeQuery();
-                    while (resultSet.next()) {
-                        Product product = new Product();
-                        product.setId(resultSet.getInt(3));
-                        product.setName(resultSet.getString(4));
-                        product.setDescription(resultSet.getString(5));
-                        product.setPrice(resultSet.getDouble(6));
-                        Catalog catalog = new Catalog();
-                        catalog.setId(resultSet.getInt(9));
-                        catalog.setName(resultSet.getString(10));
-                        product.setImage(resultSet.getString(7));
-                        product.setCatalog(catalog);
-                        order.getProducts().add(product);
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setString(1, login);
+                preparedStatement.setString(2, password);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    user.setId(resultSet.getInt(1));
+                    user.setLogin(resultSet.getString(2));
+                    user.setPassword(resultSet.getString(3));
+                    user.setRole(UserRole.valueOf(resultSet.getString(4)));
+                    Order order = new Order();
+                    order.setId(resultSet.getInt(6));
+                    order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
+                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)) {
+                        preparedStatement1.setInt(1, order.getId());
+                        resultSet = preparedStatement1.executeQuery();
+                        while (resultSet.next()) {
+                            Product product = new Product();
+                            product.setId(resultSet.getInt(3));
+                            product.setName(resultSet.getString(4));
+                            product.setDescription(resultSet.getString(5));
+                            product.setPrice(resultSet.getDouble(6));
+                            Catalog catalog = new Catalog();
+                            catalog.setId(resultSet.getInt(9));
+                            catalog.setName(resultSet.getString(10));
+                            product.setImage(resultSet.getString(7));
+                            product.setCatalog(catalog);
+                            order.getProducts().add(product);
+                        }
                     }
+                    user.setOrder(order);
                 }
-                user.setOrder(order);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -72,36 +71,39 @@ public class UserDao extends AbstractDao<User> {
                 " JOIN product ON product.id = order_product.product_id" +
                 " JOIN catalog ON catalog.id = product.catalog_id " +
                 "WHERE order_product.order_id = ?";
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt(1));
-                user.setLogin(resultSet.getString(2));
-                user.setPassword(resultSet.getString(3));
-                user.setRole(UserRole.valueOf(resultSet.getString(4)));
-                Order order = new Order();
-                order.setId(resultSet.getInt(6));
-                order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
-                try (PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)){
-                    preparedStatement1.setInt(1, order.getId());
-                    ResultSet resultSet1 = preparedStatement1.executeQuery();
-                    while (resultSet1.next()) {
-                        Product product = new Product();
-                        product.setId(resultSet1.getInt(3));
-                        product.setName(resultSet1.getString(4));
-                        product.setDescription(resultSet1.getString(5));
-                        product.setPrice(resultSet1.getDouble(6));
-                        Catalog catalog = new Catalog();
-                        catalog.setId(resultSet1.getInt(9));
-                        catalog.setName(resultSet1.getString(10));
-                        product.setImage(resultSet1.getString(7));
-                        product.setCatalog(catalog);
-                        order.getProducts().add(product);
+
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    User user = new User();
+                    user.setId(resultSet.getInt(1));
+                    user.setLogin(resultSet.getString(2));
+                    user.setPassword(resultSet.getString(3));
+                    user.setRole(UserRole.valueOf(resultSet.getString(4)));
+                    Order order = new Order();
+                    order.setId(resultSet.getInt(6));
+                    order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
+                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)) {
+                        preparedStatement1.setInt(1, order.getId());
+                        ResultSet resultSet1 = preparedStatement1.executeQuery();
+                        while (resultSet1.next()) {
+                            Product product = new Product();
+                            product.setId(resultSet1.getInt(3));
+                            product.setName(resultSet1.getString(4));
+                            product.setDescription(resultSet1.getString(5));
+                            product.setPrice(resultSet1.getDouble(6));
+                            Catalog catalog = new Catalog();
+                            catalog.setId(resultSet1.getInt(9));
+                            catalog.setName(resultSet1.getString(10));
+                            product.setImage(resultSet1.getString(7));
+                            product.setCatalog(catalog);
+                            order.getProducts().add(product);
+                        }
                     }
+                    user.setOrder(order);
+                    users.add(user);
                 }
-                user.setOrder(order);
-                users.add(user);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -112,15 +114,16 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     public void addEntity(User entity) {
-
         String sql = "INSERT INTO user(login, password, role, userorder_id) Values(?, ?, ?, ?)";
-        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.setString(3, entity.getRole().toString());
-            preparedStatement.setInt(4, entity.getOrder().getId());
 
-            preparedStatement.executeUpdate();
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setString(1, entity.getLogin());
+                preparedStatement.setString(2, entity.getPassword());
+                preparedStatement.setString(3, entity.getRole().toString());
+                preparedStatement.setInt(4, entity.getOrder().getId());
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
         }
@@ -129,16 +132,20 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     public void deleteEntity(User entity) {
-            throw new NotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public void editEntity(User entity) {
         String sql = "UPDATE user SET userorder_id = ? WHERE id = ?";
-        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-            preparedStatement.setInt(1, entity.getOrder().getId());
-            preparedStatement.setInt(2, entity.getId());
-            preparedStatement.executeUpdate();
+
+        try (Connection conn = getConnection()) {
+
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setInt(1, entity.getOrder().getId());
+                preparedStatement.setInt(2, entity.getId());
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
         }
@@ -153,40 +160,42 @@ public class UserDao extends AbstractDao<User> {
                 " JOIN product ON product.id = order_product.product_id" +
                 " JOIN catalog ON catalog.id = product.catalog_id" +
                 " WHERE order_product.order_id = ?";
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                user.setId(resultSet.getInt(1));
-                user.setLogin(resultSet.getString(2));
-                user.setPassword(resultSet.getString(3));
-                user.setRole(UserRole.valueOf(resultSet.getString(4)));
-                Order order = new Order();
-                order.setId(resultSet.getInt(6));
-                order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
-                try (PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)){
-                    preparedStatement1.setInt(1, order.getId());
-                    resultSet = preparedStatement1.executeQuery();
-                    while (resultSet.next()) {
-                        Product product = new Product();
-                        product.setId(resultSet.getInt(3));
-                        product.setName(resultSet.getString(4));
-                        product.setDescription(resultSet.getString(5));
-                        product.setPrice(resultSet.getDouble(6));
-                        Catalog catalog = new Catalog();
-                        catalog.setId(resultSet.getInt(9));
-                        catalog.setName(resultSet.getString(10));
-                        product.setImage(resultSet.getString(7));
-                        product.setCatalog(catalog);
-                        order.getProducts().add(product);
+
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    user.setId(resultSet.getInt(1));
+                    user.setLogin(resultSet.getString(2));
+                    user.setPassword(resultSet.getString(3));
+                    user.setRole(UserRole.valueOf(resultSet.getString(4)));
+                    Order order = new Order();
+                    order.setId(resultSet.getInt(6));
+                    order.setStatus(OrderStatus.valueOf(resultSet.getString(7)));
+                    try (PreparedStatement preparedStatement1 = conn.prepareStatement(sql1)) {
+                        preparedStatement1.setInt(1, order.getId());
+                        resultSet = preparedStatement1.executeQuery();
+                        while (resultSet.next()) {
+                            Product product = new Product();
+                            product.setId(resultSet.getInt(3));
+                            product.setName(resultSet.getString(4));
+                            product.setDescription(resultSet.getString(5));
+                            product.setPrice(resultSet.getDouble(6));
+                            Catalog catalog = new Catalog();
+                            catalog.setId(resultSet.getInt(9));
+                            catalog.setName(resultSet.getString(10));
+                            product.setImage(resultSet.getString(7));
+                            product.setCatalog(catalog);
+                            order.getProducts().add(product);
+                        }
                     }
+                    user.setOrder(order);
                 }
-                user.setOrder(order);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return user;
     }
 
