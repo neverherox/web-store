@@ -41,6 +41,7 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/admin/add_product.jsp").forward(request, response);
 
     }
 }
