@@ -125,4 +125,13 @@
     <servlet-name>DeleteProductServlet</servlet-name>
     <url-pattern>/delete_product</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CheckOutOrderServlet</servlet-name>
+    <servlet-class>servlet.user.CheckOutOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckOutOrderServlet</servlet-name>
+    <url-pattern>/checkout_order</url-pattern>
+  </servlet-mapping>
 </web-app>

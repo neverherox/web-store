@@ -25,22 +25,23 @@
                 <a class="nav-link" href="user">Shop <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="log_out">Log out</a>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" id = "searchBox">
+                </form>
             </li>
         </ul>
+        <a class="nav-link disabled" href="log_out">Log out</a>
     </div>
 </nav>
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <table class="table table-hover">
+            <table class="table table-hover" id = "myTable">
                 <thead>
                 <tr>
                     <th>Product</th>
                     <th>Quantity</th>
-                    <th class="text-center">Price,$</th>
+                    <th class="text-center">Price</th>
                     <th> </th>
                 </tr>
                 </thead>
@@ -60,7 +61,7 @@
                         <td class="col-sm-1 col-md-1" style="text-align: center">
                             <input type="email" class="form-control" id="exampleInputEmail1" value="1">
                         </td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>${product.price}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>$${product.price}</strong></td>
                         <td class="col-sm-1 col-md-1">
                             <form method="POST" action="delete_product_from_order">
                                 <input type="hidden" name="userId" value="${user.id}">
@@ -76,16 +77,19 @@
                     <td>  </td>
                     <td>  </td>
                     <td><h3>Total</h3></td>
-                    <td class="text-right"><h3><strong></strong></h3></td>
+                    <td class="text-right"><h3><strong>$${order_price}</strong></h3></td>
                 </tr>
                 <tr>
                     <td>  </td>
                     <td>  </td>
                     <td>  </td>
                     <td>
-                        <button type="button" class="btn btn-success">
+                        <form method="POST" action="checkout_order">
+                            <input type="hidden" name="userId" value="${user.id}">
+                            <button type="submit" class="btn btn-success">
                             Checkout <span class="glyphicon glyphicon-play"></span>
                         </button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -93,5 +97,15 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#searchBox").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 

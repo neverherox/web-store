@@ -24,24 +24,20 @@
             <li class="nav-item active">
                 <a class="nav-link" href="orders">Customer orders <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="add_product">Create new product <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="log_out">Log out</a>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" id = "searchBox">
+                </form>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <a class="nav-link disabled" href="log_out">Log out</a>
     </div>
 </nav>
 
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <table class="table table-hover">
+            <table class="table table-hover" id = "myTable">
                 <thead>
                 <tr>
                     <th>Product</th>
@@ -83,10 +79,27 @@
                         </td>
                     </tr>
                 </c:forEach>
+                <tr>
+                    <td>
+                        <form action="add_product">
+                            <input type="submit" value="Create new product" name="addButton" class="btn btn-success"
+                                   class="glyphicon glyphicon-remove"/>
+                        </form>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
+<script>
+    $(document).ready(function(){
+        $("#searchBox").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 

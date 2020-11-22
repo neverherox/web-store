@@ -25,8 +25,7 @@ public class UserServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        List<Product> products = null;
-        products = productService.getProducts();
+        List<Product> products = productService.getProducts();
 
         request.setAttribute("user", user);
         request.setAttribute("products", products);

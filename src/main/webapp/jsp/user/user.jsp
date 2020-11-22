@@ -17,13 +17,13 @@
                 <a class="nav-link" href="view_user_order?id=${user.id}">Your orders <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="log_out">Log out</a>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" id = "searchBox" onkeyup="myFunction()">
+                </form>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <a class="nav-link disabled" href="log_out">Log out</a>
+
     </div>
 </nav>
 <div class="container">
@@ -48,4 +48,19 @@
     </c:forEach>
 </div>
 
+<script>
+    function myFunction() {
+        var input = document.getElementById("searchBox");
+        var filter = input.value.toLowerCase();
+        var nodes = document.getElementsByClassName('card');
+
+        for (i = 0; i < nodes.length; i++) {
+            if (nodes[i].innerText.toLowerCase().includes(filter)) {
+                nodes[i].style.display = "block";
+            } else {
+                nodes[i].style.display = "none";
+            }
+        }
+    }
+</script>
 

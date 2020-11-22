@@ -45,4 +45,14 @@ public class OrderServiceImpl implements OrderService {
         OrderDao orderDao = new OrderDao();
         orderDao.deleteProductFromOrder(order, product);
     }
+
+    public double countOrderPrice(Order order)
+    {
+        int sum = 0;
+        for(Product product : order.getProducts())
+        {
+            sum+=product.getPrice();
+        }
+        return sum;
+    }
 }

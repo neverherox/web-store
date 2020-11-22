@@ -16,21 +16,18 @@
             <li class="nav-item active">
                 <a class="nav-link" href="admin">Products editor <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a  class="nav-link" href="add_product">Create new product <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="log_out">Log out</a>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" id = "searchBox">
+                </form>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <a class="nav-link disabled" href="log_out">Log out</a>
+
     </div>
 </nav>
 <div class="container">
-    <table class="table">
+    <table class="table" id = "myTable">
         <thead>
         <tr>
             <th scope="col">Customer id</th>
@@ -55,5 +52,13 @@
         </tbody>
     </table>
 </div>
-
-
+<script>
+    $(document).ready(function(){
+        $("#searchBox").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

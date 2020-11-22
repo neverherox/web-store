@@ -53,7 +53,6 @@ public class OrderDao extends AbstractDao<Order> {
     @Override
     public void deleteEntity(Order entity) {
         String sql = "DELETE FROM userorder WHERE id = ?";
-
         try (Connection conn = getConnection()) {
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setInt(1, entity.getId());

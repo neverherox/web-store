@@ -19,4 +19,6 @@ public interface OrderService {
     void deleteProductFromOrder(Order order, Product product);
 
     void addProductToOrder(Order order, Product product);
+
+    double countOrderPrice(Order order);
 }
