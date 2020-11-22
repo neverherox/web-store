@@ -31,8 +31,7 @@ public class SignUpServlet extends HttpServlet {
         String password = request.getParameter("password");
         String retypePassword = request.getParameter("retype_password");
         if (!password.equals(retypePassword)) {
-            request.setAttribute("exception", "Passwords don`t match");
-            request.getRequestDispatcher("jsp/signup.jsp").forward(request, response);
+            request.getRequestDispatcher("jsp/signin.jsp").forward(request, response);
             return;
         }
         Order order  = new Order();

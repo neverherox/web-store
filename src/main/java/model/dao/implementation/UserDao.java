@@ -96,7 +96,7 @@ public class UserDao extends AbstractDao<User> {
                             Catalog catalog = new Catalog();
                             catalog.setId(resultSet1.getInt(9));
                             catalog.setName(resultSet1.getString(10));
-                            product.setImage(resultSet1.getString(7));
+                            product.setImage(resultSet1.getString(8));
                             product.setCatalog(catalog);
                             order.getProducts().add(product);
                         }
@@ -185,7 +185,7 @@ public class UserDao extends AbstractDao<User> {
                             Catalog catalog = new Catalog();
                             catalog.setId(resultSet.getInt(9));
                             catalog.setName(resultSet.getString(10));
-                            product.setImage(resultSet.getString(7));
+                            product.setImage(resultSet.getString(8));
                             product.setCatalog(catalog);
                             order.getProducts().add(product);
                         }
