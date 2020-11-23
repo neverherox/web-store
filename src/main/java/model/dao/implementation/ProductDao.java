@@ -7,6 +7,7 @@ import java.util.List;
 import model.dao.abtract.AbstractDao;
 import model.entity.Catalog;
 import model.entity.Product;
+import model.entity.User;
 
 
 public class ProductDao extends AbstractDao<Product> {
@@ -14,27 +15,18 @@ public class ProductDao extends AbstractDao<Product> {
 
     public List<Product> getAll() {
         List<Product> products = new ArrayList<Product>();
-        String sql = "SELECT * FROM product JOIN catalog ON catalog.id = product.catalog_id";
+        String sql = "SELECT * FROM product";
 
         try (Connection conn = getConnection()) {
             try (Statement statement = conn.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sql);
                 while (resultSet.next()) {
-                    Product product = new Product();
-                    product.setId(resultSet.getInt(1));
-                    product.setName(resultSet.getString(2));
-                    product.setDescription(resultSet.getString(3));
-                    product.setPrice(resultSet.getDouble(4));
-                    product.setImage(resultSet.getString(6));
-                    Catalog catalog = new Catalog();
-                    catalog.setId(resultSet.getInt(7));
-                    catalog.setName(resultSet.getString(8));
-                    product.setCatalog(catalog);
+                    Product product = getEntityById(resultSet.getInt(1));
                     products.add(product);
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return products;
     }

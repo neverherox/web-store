@@ -1,16 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Menu</a>
@@ -30,7 +23,11 @@
                 </form>
             </li>
         </ul>
-        <a class="nav-link disabled" href="log_out">Log out</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="log_out">Log out</a>
+            </li>
+        </ul>
     </div>
 </nav>
 
@@ -65,14 +62,14 @@
                         <td class="col-sm-1 col-md-1 text-center"><strong>${product.price}</strong></td>
                         <td class="col-sm-1 col-md-1">
                             <form action="edit_product">
-                                <input type="submit" value="edit" name="editButton" class="btn btn-success"
+                                <input type="submit" value="edit" name="editButton" class="btn btn-outline-success"
                                        class="glyphicon glyphicon-remove"/>
                                 <input type="hidden" name="edit" value="${product.id}">
                             </form>
                         </td>
                         <td class="col-sm-1 col-md-1">
                             <form method="POST" action="delete_product">
-                                <input type="submit" value="delete" name="deleteButton" class="btn btn-danger"
+                                <input type="submit" value="delete" name="deleteButton" class="btn btn-outline-danger"
                                        class="glyphicon glyphicon-remove"/>
                                 <input type="hidden" name="delete" value="${product.id}">
                             </form>
@@ -82,7 +79,7 @@
                 <tr>
                     <td>
                         <form action="add_product">
-                            <input type="submit" value="Create new product" name="addButton" class="btn btn-success"
+                            <input type="submit" value="Create new product" name="addButton" class="btn btn-outline-success"
                                    class="glyphicon glyphicon-remove"/>
                         </form>
                     </td>

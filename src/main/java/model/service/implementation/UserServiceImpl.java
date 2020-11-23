@@ -23,8 +23,9 @@ public class UserServiceImpl implements UserService {
 
     public void addUser(User user) {
         OrderDao orderDao = new OrderDao();
-        List<Order> orders = orderDao.getAll();
         UserDao userDao = new UserDao();
+
+        List<Order> orders = orderDao.getEmptyOrders();
         user.setOrder(orders.get(orders.size()-1));
         userDao.addEntity(user);
     }
@@ -34,8 +35,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
     public void editUser(User user){
-
+        OrderDao orderDao = new OrderDao();
         UserDao userDao = new UserDao();
+
+        List<Order> orders = orderDao.getEmptyOrders();
+        user.setOrder(orders.get(orders.size()-1));
         userDao.editEntity(user);
     }
 }

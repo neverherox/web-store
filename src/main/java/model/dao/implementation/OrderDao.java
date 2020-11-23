@@ -12,8 +12,7 @@ import java.util.List;
 
 public class OrderDao extends AbstractDao<Order> {
 
-    @Override
-    public List<Order> getAll() {
+    public List<Order> getEmptyOrders() {
         String sql = "SELECT * FROM userorder";
         List<Order> orders = new ArrayList<>();
 
@@ -94,16 +93,35 @@ public class OrderDao extends AbstractDao<Order> {
         }
     }
 
+    @Override
+    public List<Order> getAll() {
+        String sql = "SELECT * FROM userorder";
+        List<Order> orders = new ArrayList<>();
+
+        try (Connection conn = getConnection()) {
+            try (Statement statement = conn.createStatement()) {
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {
+                    Order order = getEntityById(resultSet.getInt(1));
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL exception (request or table failed): " + e);
+        }
+        return orders;
+    }
+
     public Order getEntityById(int id) {
 
         Order order = new Order();
         List<Product> products = new ArrayList<>();
 
-        String sql = "SELECT * FROM order_product" +
-                " JOIN userorder ON userorder.id = order_product.order_id" +
+        String sql = "SELECT * FROM userorder" +
+                " JOIN order_product ON order_product.order_id = userorder.id"+
                 " JOIN product ON product.id = order_product.product_id" +
                 " JOIN catalog ON catalog.id = product.catalog_id" +
-                " WHERE order_product.order_id = ?";
+                " WHERE userorder.id = ?";
 
         try (Connection conn = getConnection()) {
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -111,23 +129,24 @@ public class OrderDao extends AbstractDao<Order> {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     order.setId(resultSet.getInt(1));
+                    order.setStatus(OrderStatus.valueOf(resultSet.getString(2)));
                     Product product = new Product();
-                    product.setId(resultSet.getInt(2));
-                    order.setStatus(OrderStatus.valueOf(resultSet.getString(4)));
+                    product.setId(resultSet.getInt(5));
                     product.setName(resultSet.getString(6));
                     product.setDescription(resultSet.getString(7));
                     product.setPrice(resultSet.getDouble(8));
+                    product.setImage(resultSet.getString(10));
                     Catalog catalog = new Catalog();
                     catalog.setId(resultSet.getInt(11));
                     catalog.setName(resultSet.getString(12));
                     product.setCatalog(catalog);
                     products.add(product);
-                    order.setProducts(products);
                 }
             }
         } catch (SQLException e) {
             System.err.println("SQL exception (request or table failed): " + e);
         }
+        order.setProducts(products);
         return order;
     }
 

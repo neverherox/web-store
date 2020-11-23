@@ -1,7 +1,10 @@
 package servlet.admin;
 
+import model.entity.Order;
 import model.entity.User;
+import model.service.implementation.OrderServiceImpl;
 import model.service.implementation.UserServiceImpl;
+import model.service.interfaces.OrderService;
 import model.service.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -21,12 +24,11 @@ public class ViewOrdersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserService userService = new UserServiceImpl();
+        OrderService orderService = new OrderServiceImpl();
 
-        List<User> users = null;
-        users = userService.getUsers();
+        List<Order> orders = orderService.getOrders();
 
-        request.setAttribute("users", users);
+        request.setAttribute("orders", orders);
         request.getRequestDispatcher("/jsp/admin/orders.jsp").forward(request, response);
     }
 }

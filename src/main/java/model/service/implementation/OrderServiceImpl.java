@@ -8,16 +8,18 @@ import model.service.interfaces.OrderService;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
-    public List<Order> getOrders(){
+    public List<Order> getOrders() {
         OrderDao orderDao = new OrderDao();
         List<Order> orders = orderDao.getAll();
-        return  orders;
+        return orders;
     }
-    public void addOrder(Order order){
+
+    public void addOrder(Order order) {
         OrderDao orderDao = new OrderDao();
         orderDao.addEntity(order);
     }
-    public void deleteOrder(Order order){
+
+    public void deleteOrder(Order order) {
 
         OrderDao orderDao = new OrderDao();
         orderDao.deleteEntity(order);
@@ -29,11 +31,13 @@ public class OrderServiceImpl implements OrderService {
         orderDao.editEntity(order);
 
     }
+
     public void addProductToOrder(Order order, Product product) {
         OrderDao orderDao = new OrderDao();
         orderDao.addProductToOrder(order, product);
     }
-    public Order getOrder(int orderId){
+
+    public Order getOrder(int orderId) {
 
         OrderDao orderDao = new OrderDao();
 
@@ -41,18 +45,22 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    public void deleteProductFromOrder(Order order, Product product){
+    public void deleteProductFromOrder(Order order, Product product) {
         OrderDao orderDao = new OrderDao();
         orderDao.deleteProductFromOrder(order, product);
     }
 
-    public double countOrderPrice(Order order)
-    {
+    public double countOrderPrice(Order order) {
         int sum = 0;
-        for(Product product : order.getProducts())
-        {
-            sum+=product.getPrice();
+        for (Product product : order.getProducts()) {
+            sum += product.getPrice();
         }
         return sum;
+    }
+
+    @Override
+    public List<Order> getEmptyOrders() {
+        OrderDao orderDao = new OrderDao();
+        return orderDao.getEmptyOrders();
     }
 }

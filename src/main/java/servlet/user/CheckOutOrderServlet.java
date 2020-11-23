@@ -39,11 +39,16 @@ public class CheckOutOrderServlet extends HttpServlet {
 
         int userId = Integer.parseInt(request.getParameter("userId"));
         User user = userService.getUser(userId);
-        for(Product product : user.getOrder().getProducts()) {
-            orderService.deleteProductFromOrder(user.getOrder(),product);
-        }
-        user.getOrder().setStatus(OrderStatus.UNPAID);
+
+        user.getOrder().setStatus(OrderStatus.PAID);
         orderService.editOrder(user.getOrder());
+
+        Order order = new Order();
+        order.setStatus(OrderStatus.UNPAID);
+        orderService.addOrder(order);
+
+        userService.editUser(user);
+
         response.sendRedirect("user");
     }
 }

@@ -20,8 +20,7 @@ public class SignInServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        User user = null;
-        user = userService.getUser(login, password);
+        User user = userService.getUser(login, password);
 
         if (user.getRole().equals(UserRole.ADMIN)) {
             request.getSession(true).setAttribute("user", user);

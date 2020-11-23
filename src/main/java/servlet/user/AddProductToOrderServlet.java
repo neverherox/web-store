@@ -25,8 +25,7 @@ public class AddProductToOrderServlet extends HttpServlet {
         OrderService orderService = new OrderServiceImpl();
 
         int userId = Integer.parseInt(request.getParameter("userId"));
-        User user = null;
-        user = userService.getUser(userId);
+        User user = userService.getUser(userId);
 
         if (request.getParameter("addButton") != null) {
 

@@ -21,4 +21,6 @@ public interface OrderService {
     void addProductToOrder(Order order, Product product);
 
     double countOrderPrice(Order order);
+
+    List<Order> getEmptyOrders();
 }

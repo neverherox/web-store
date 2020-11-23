@@ -24,8 +24,8 @@ public class DeleteProductFromOrderServlet extends HttpServlet {
         ProductService productService = new ProductServiceImpl();
 
         int userId = Integer.parseInt(request.getParameter("userId"));
-        User user = null;
-        user = userService.getUser(userId);
+
+        User user = userService.getUser(userId);
 
         if (request.getParameter("deleteButton") != null) {
             int productId = Integer.parseInt(request.getParameter("productId"));
