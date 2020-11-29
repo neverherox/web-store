@@ -134,4 +134,13 @@
     <servlet-name>CheckOutOrderServlet</servlet-name>
     <url-pattern>/checkout_order</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteOrderServlet</servlet-name>
+    <servlet-class>servlet.admin.DeleteOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteOrderServlet</servlet-name>
+    <url-pattern>/delete_order</url-pattern>
+  </servlet-mapping>
 </web-app>

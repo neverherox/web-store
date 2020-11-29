@@ -46,6 +46,13 @@
                     <td>${order.id}</td>
                     <td>${product.name}</td>
                     <td>${order.status}</td>
+                    <td>
+                        <form method="POST" action="delete_order">
+                            <input type="submit" value="delete" name="deleteButton" class="btn btn-outline-danger"
+                                   class="glyphicon glyphicon-remove"/>
+                            <input type="hidden" name="delete" value="${order.id}">
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </c:forEach>
