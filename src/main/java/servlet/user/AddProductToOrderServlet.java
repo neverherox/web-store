@@ -30,8 +30,7 @@ public class AddProductToOrderServlet extends HttpServlet {
         if (request.getParameter("addButton") != null) {
 
             int productId = Integer.parseInt(request.getParameter("add"));
-            Product product = null;
-            product = productService.getProduct(productId);
+            Product product = productService.getProduct(productId);
 
             Order order = user.getOrder();
             orderService.addProductToOrder(order, product);
