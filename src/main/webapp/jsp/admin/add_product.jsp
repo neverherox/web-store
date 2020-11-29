@@ -16,11 +16,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="admin">Products editor <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" id = "searchBox">
-                </form>
-            </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
