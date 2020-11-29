@@ -1,7 +1,6 @@
 package servlet.user;
 
-import model.dao.implementation.OrderDao;
-import model.dao.implementation.UserDao;
+
 import model.entity.Order;
 import model.entity.OrderStatus;
 import model.entity.Product;
@@ -12,33 +11,24 @@ import model.service.interfaces.OrderService;
 import model.service.interfaces.UserService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "CheckOutOrderServlet")
 public class CheckOutOrderServlet extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserServiceImpl();
         OrderService orderService = new OrderServiceImpl();
-        int userId = Integer.parseInt(request.getParameter("userId"));
 
+        int userId = Integer.parseInt(request.getParameter("userId"));
         User user = userService.getUser(userId);
+
+        List<Product> products = user.getOrder().getProducts();
         double orderPrice = orderService.countOrderPrice(user.getOrder());
 
-        request.setAttribute("order_price", orderPrice);
-        request.getRequestDispatcher("/jsp/user/checkout_order.jsp").forward(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserService userService = new UserServiceImpl();
-        OrderService orderService = new OrderServiceImpl();
-
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        User user = userService.getUser(userId);
 
         user.getOrder().setStatus(OrderStatus.PAID);
         orderService.editOrder(user.getOrder());
@@ -49,6 +39,27 @@ public class CheckOutOrderServlet extends HttpServlet {
 
         userService.editUser(user);
 
-        response.sendRedirect("user");
+        request.setAttribute("user", user);
+        request.setAttribute("products", products);
+        request.setAttribute("order_price",orderPrice);
+        request.setAttribute("firstName", request.getParameter("firstName"));
+        request.setAttribute("lastName", request.getParameter("lastName"));
+        request.setAttribute("address", request.getParameter("address"));
+        request.setAttribute("country", request.getParameter("country"));
+        request.setAttribute("city", request.getParameter("city"));
+
+        request.getRequestDispatcher("/jsp/user/bill.jsp").forward(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserService userService = new UserServiceImpl();
+        OrderService orderService = new OrderServiceImpl();
+        int userId = Integer.parseInt(request.getParameter("userId"));
+
+        User user = userService.getUser(userId);
+        double orderPrice = orderService.countOrderPrice(user.getOrder());
+
+        request.setAttribute("order_price", orderPrice);
+        request.getRequestDispatcher("/jsp/user/checkout_order.jsp").forward(request, response);
     }
 }

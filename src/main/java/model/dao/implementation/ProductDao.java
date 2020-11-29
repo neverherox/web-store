@@ -33,7 +33,7 @@ public class ProductDao extends AbstractDao<Product> {
 
     @Override
     public void addEntity(Product entity) {
-        String sql = "INSERT INTO product(catalog_id, productName, description, price) Values(?, ?, ?, ?)";
+        String sql = "INSERT INTO product(catalog_id, productName, description, price, image) Values(?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection()) {
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -41,6 +41,8 @@ public class ProductDao extends AbstractDao<Product> {
                 preparedStatement.setString(2, entity.getName());
                 preparedStatement.setString(3, entity.getDescription());
                 preparedStatement.setDouble(4, entity.getPrice());
+                preparedStatement.setString(5, entity.getImage());
+
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -66,15 +68,17 @@ public class ProductDao extends AbstractDao<Product> {
 
     @Override
     public void editEntity(Product entity) {
-        String sql = "UPDATE product SET productName = ?, description = ?, price = ? WHERE id = ?";
+        String sql = "UPDATE product SET productName = ?, description = ?, price = ?, image = ? WHERE id = ?";
 
         try (Connection conn = getConnection()) {
 
             try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.setInt(4, entity.getId());
+                preparedStatement.setInt(5, entity.getId());
                 preparedStatement.setString(1, entity.getName());
                 preparedStatement.setDouble(3, entity.getPrice());
                 preparedStatement.setString(2, entity.getDescription());
+                preparedStatement.setString(4, entity.getImage());
+
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

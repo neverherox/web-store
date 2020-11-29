@@ -29,6 +29,7 @@
         </ul>
     </div>
 </nav>
+
 <div class="container">
     <table class="table" id = "myTable">
         <thead>

@@ -20,19 +20,14 @@ public class AddProductServlet extends HttpServlet {
         ProductService productService = new ProductServiceImpl();
 
         int catalogId = Integer.parseInt(request.getParameter("catalogId"));
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
-        String description = request.getParameter("description");
-        Catalog catalog = null;
-        catalog = catalogService.getCatalog(catalogId);
-
+        Catalog catalog = catalogService.getCatalog(catalogId);
 
         Product product = new Product();
+        product.setImage(request.getParameter("image"));
         product.setCatalog(catalog);
-        product.setName(name);
-        product.setPrice(price);
-        product.setDescription(description);
-
+        product.setName(request.getParameter("name"));
+        product.setPrice(Double.parseDouble(request.getParameter("price")));
+        product.setDescription(request.getParameter("description"));
 
         productService.addProduct(product);
 

@@ -18,8 +18,7 @@ public class DeleteProductServlet extends HttpServlet {
 
         if (request.getParameter("deleteButton") != null) {
             int id = Integer.parseInt(request.getParameter("delete"));
-            Product product = null;
-            product = productService.getProduct(id);
+            Product product = productService.getProduct(id);
             productService.deleteProduct(product);
         }
         response.sendRedirect("admin");

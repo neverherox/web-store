@@ -16,9 +16,9 @@ public class EditProductServlet extends HttpServlet {
         ProductService productService = new ProductServiceImpl();
 
         int id = Integer.parseInt(request.getParameter("productId"));
-        Product product = null;
-        product = productService.getProduct(id);
+        Product product = productService.getProduct(id);
 
+        product.setImage(request.getParameter("image"));
         product.setName(request.getParameter("name"));
         product.setPrice(Double.parseDouble(request.getParameter("price")));
         product.setDescription(request.getParameter("description"));

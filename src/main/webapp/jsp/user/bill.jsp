@@ -17,11 +17,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="user">Shop <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" id = "searchBox">
-                </form>
-            </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -31,8 +26,24 @@
     </div>
 </nav>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
+    <div class="card">
+        <div class="card-header">
+            Invoice
+            <strong><%= (new java.util.Date()).toLocaleString()%></strong>
+            <span class="float-right"> <strong>Status:</strong> PAID</span>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">To:</h6>
+                    <div>
+                        <strong>${firstName} &nbsp; ${lastName}</strong>
+                    </div>
+                    <div>${country}</div>
+                    <div>${city}</div>
+                    <div>${address}</div>
+                </div>
+            </div>
             <table class="table table-hover" id = "myTable">
                 <thead>
                 <tr>
@@ -43,7 +54,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${user.order.products}" var="product">
+                <c:forEach items="${products}" var="product">
                     <tr>
                         <td class="col-sm-8 col-md-6">
                             <div class="media">
@@ -59,15 +70,6 @@
                             <strong>${product.description}</strong>
                         </td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>$${product.price}</strong></td>
-                        <td class="col-sm-1 col-md-1">
-                            <form method="POST" action="delete_product_from_order">
-                                <input type="hidden" name="userId" value="${user.id}">
-                                <input type="hidden" name="productId" value="${product.id}">
-                                <input type="hidden" name="delete" value="${product.id}">
-                                <input type="submit" class="btn btn-outline-danger" class="glyphicon glyphicon-remove"
-                                       value="Remove" name="deleteButton"/>
-                            </form>
-                        </td>
                     </tr>
                 </c:forEach>
                 <tr>
@@ -76,33 +78,8 @@
                     <td><h3>Total</h3></td>
                     <td class="text-right"><h3><strong>$${order_price}</strong></h3></td>
                 </tr>
-                <tr>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>
-                        <form action="checkout_order">
-                            <input type="hidden" name="userId" value="${user.id}">
-                            <button type="submit" class="btn btn-outline-success">
-                            Checkout <span class="glyphicon glyphicon-play"></span>
-                        </button>
-                        </form>
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        $("#searchBox").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
-</script>
-
-

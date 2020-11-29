@@ -27,8 +27,7 @@ public class AdminServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute("user");
-        List<Product> products = null;
-        products = productService.getProducts();
+        List<Product> products = productService.getProducts();
         request.setAttribute("products", products);
         request.getRequestDispatcher("/jsp/admin/admin.jsp").forward(request, response);
     }
